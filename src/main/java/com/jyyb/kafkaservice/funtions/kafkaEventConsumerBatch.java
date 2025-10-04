@@ -17,12 +17,12 @@ public class kafkaEventConsumerBatch implements Consumer<List<Message<KafkaEvent
 
     @Override
     public void accept(List<Message<KafkaEvent>> messages) {
-        messages.stream().forEach(
-                message -> CompletableFuture.runAsync(
-                        () -> externalRestCall.call(message), executorService
-                )
-
-        );
+//        messages.stream().forEach(
+//                message -> CompletableFuture.runAsync(
+//                        () -> externalRestCall.call(message), executorService
+//                )
+//
+//        );
     }
 
     //externalRestCall.call could use DoOnSuccesss to get call response then process response.

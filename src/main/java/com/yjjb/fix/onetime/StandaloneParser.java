@@ -10,7 +10,7 @@ public class StandaloneParser {
 
         try {
             SessionSettings settings = new SessionSettings();
-            DataDictionary dataDictionary = new DataDictionary("spec/FIX44.xml"); // Path to your FIX dictionary
+            DataDictionary dataDictionary = new DataDictionary("FIX44.xml"); // Path to your FIX dictionary
             DefaultMessageFactory messageFactory = new DefaultMessageFactory();
 
             Message message = MessageUtils.parse(messageFactory, dataDictionary, fixMessageString);
