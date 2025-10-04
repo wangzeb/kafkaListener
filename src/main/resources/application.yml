@@ -1,0 +1,107 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: kafkaListener
+#  config:
+#    import: "optional:configserver"
+  devtools: # application-local
+    restart:
+      enabled: true
+  cloud:
+    stream:
+      function:
+        definition: eventConsumer
+      bindings:
+        eventConsumer-in-0:
+          destination: sample-topic-name
+          group: sample-topic-group-id
+          contentType: text/plain # application/json # application/*+avro
+      kafka:
+        binder:
+          autoCreateTopics: false
+          autoAddPartitions: false
+          brokers: kafka1.jyyb.com, kafka2.jyyb.com
+          consumer-properties:
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            auto.offset.reset: earliest
+          jaas:
+            loginModule: com.sun.security.auth.module.Krb5LoginModule
+            controlFlag: required
+            options:
+              useKeyTab: true
+              storeKey: true
+              keyTabEncoded: 'BQ..openssl base64.'
+              keyTab: src/main/resources/serviceid.keytab
+              principal: serviceid@JYYB.COM
+              doNotPrompt: true
+              refreshKrb5Config: true
+          configuration:
+            sasl:
+              kerberos:
+                realm: JYYB.COM
+                kdc: jyyb.com
+            security:
+              protocol: SASL_SSL
+            ssl:
+              truststore:
+                encoded: "keytool -importcert -file xx.cer -keystore output.jks -alias samplename -storepass weijie0808! -noprompt"
+                location: src/main/resources/keystore_genereted.jks
+                password: weijie0808!
+                type: JKS
+logging.level:
+  root: info
+  httpClientLogger: debug
+  org:
+    springframework:
+      kafka.listener.KafkaMessageListenerContainer: info
+
+management:
+  health:
+    defaults:
+      enabled: true
+    binders:
+      enabled: true
+    metrics:
+      export:
+        prometheus:
+          enabled: false
+    endpoint:
+      health:
+        show-details: always
+    endpoints:
+      enabled-by-default: true
+    web:
+      base-path: /management
+      exposure:
+        exclude:
+        include: "*"
+
+
+
+
+
+
+
+
+app:
+  heroku-api:
+    base-url: "https://sample"
+    retry:
+      max-attempts: 3
+      jitter-factor: 0.75
+      min-interval: 1s
+      timeout: 30s
+
+
+
+oauth:
+  pingfederate:
+    url: "https://token.oauth2"
+    retry:
+      max-attempts: 3
+      jitter-factor: 0.75
+      min-interval: 1s
+      timeout: 30s

@@ -1,0 +1,14 @@
+8=FIX.4.2|9=176|35=D|49=CLIENT12|56=BROKER12|34=215|52=20250930-12:01:01.123|11=NF0542/0901|21=1|40=2|54=1|60=20250930-12:01:01.123|38=100|55=AAPL|59=0|10=072|
+
+
+# Explanation of key fields:
+8=FIX.4.2: FIX protocol version
+9=176: Message length
+35=D: Message type (D = New Order Single)
+49=CLIENT12: SenderCompID
+56=BROKER12: TargetCompID
+34=215: Message sequence number
+52=20250930-12:01:01.123: Sending time (YYYYMMDD-HH:MM:SS.sss)
+11=NF0542/0901: Client order ID
+21=1: HandlInst (automated execution order, private, no broker intervention)
+40=2: Order type (2 = Limit)
